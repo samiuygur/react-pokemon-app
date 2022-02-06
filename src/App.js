@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
-import pokemon from './pokemon.json';
 import PropTypes from 'prop-types';
 
 const PokemonRow = ({ pokemon, onSelect }) => (
@@ -27,6 +26,7 @@ const PokemonInfo = ({name, base}) => (
   <div>
     <h1>{name.english}</h1>
     <table>
+      <tbody>
       {
         Object.keys(base).map(key => (
           <tr key={key}>
@@ -35,6 +35,7 @@ const PokemonInfo = ({name, base}) => (
           </tr>
         ))
       }
+      </tbody>
     </table>
   </div>
 );
@@ -55,7 +56,15 @@ PokemonInfo.propTypes = {
 
 function App() {
   const [filter, filterSet] = useState("");
-  const [selectedItem, selectedItemSet] = useState(null)
+  const [selectedItem, selectedItemSet] = useState(null);
+  const [pokemon, pokemonSet] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:3000/pokemon.json")
+    .then(response => response.json())
+    .then(data => pokemonSet(data));
+  }, []);
+
   return (
     <div className="App">
       <h1>Pokemon Search</h1>

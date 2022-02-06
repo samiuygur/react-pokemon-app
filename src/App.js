@@ -1,6 +1,13 @@
 import './App.css';
 import pokemon from './pokemon.json';
 
+const PokemonRow = ({ pokemon }) => (
+  <tr>
+    <td>{pokemon.name.english}</td>
+    <td>{pokemon.type.join(', ')}</td>
+  </tr>
+)
+
 function App() {
   return (
     <div className="App">
@@ -9,15 +16,12 @@ function App() {
         <thead>
           <tr>
             <th>Name</th>
-            <th>Feature</th>
+            <th>Type</th>
           </tr>
         </thead>
         <tbody>
-          {pokemon.map(pokemon => (
-            <tr>
-              <td>{pokemon.name.english}</td>
-              <td>{pokemon.type.join(', ')}</td>
-            </tr>
+          {pokemon.slice(0, 20).map(pokemon => (
+            <PokemonRow pokemon={pokemon} key={pokemon.id} />
           ))}
         </tbody>
       </table>
